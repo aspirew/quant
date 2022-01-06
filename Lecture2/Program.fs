@@ -85,3 +85,8 @@ let letterCounter ls =
         [for word in ls do yield word.Length] |> fold (fun e1 e2 -> e1 + e2) 0 |> addPositionsSum ls.Length
 
     removeEmptyElements ls |> removeWhiteSpaces |> counter
+
+[<EntryPoint>]
+let main args =
+    letterCounter [" ala";"";"ma ";" ";"kota";" "] |> printfn "%A"
+    0
