@@ -68,5 +68,10 @@ type PaymentValuationModel(inputs: PaymentValuationInputs) =
 
         let fxRate = if inputs.Data.ContainsKey fxRateKey then float inputs.Data.[ fxRateKey ] else 1.0 // lookup FX rate
         let finalCcy = if inputs.Data.ContainsKey fxRateKey then targetCcy else tradeCcy
+
+        let discount = (match inputs.Data.TryFind "Discount" with
+                         | Some r -> r
+                         | None -> "0.01") |> float
+        // discount is found and free to use for payment value calculation. If it is missing the default value (0.01) is taken into account.
         
         { Value = (float inputs.Trade.Principal) / fxRate; Currency = finalCcy }

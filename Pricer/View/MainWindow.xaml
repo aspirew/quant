@@ -214,8 +214,6 @@
                         <!-- market data & configuration grid -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Key"/>
                         <TextBlock Grid.Row="1" Grid.Column="1" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Value"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Width="140" Margin="4" Style="{DynamicResource MaterialDesignBody2TextBlock}" Text="Discount"/>
-
                         <!-- items -->
                         <ItemsControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding Data}" Margin="6">
                             <ItemsControl.ItemTemplate>
