@@ -88,5 +88,5 @@ let letterCounter ls =
 
 [<EntryPoint>]
 let main args =
-    letterCounter [" ala";"";"ma ";" ";"kota";" "] |> printfn "%A"
+    perm ["ala"; "ma"; "kota"] |> printfn "%A"
     0
