@@ -13,12 +13,14 @@ type MainViewModel() =
     let trades = ObservableCollection<PaymentViewModel>()
     let data = ObservableCollection<ConfigurationViewModel>()
     let calculationParameters = ObservableCollection<ConfigurationViewModel>()
+    let options = ObservableCollection<OptionViewModel>()
 
     let getDataConfiguration () = data |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     let getCalculationConfiguration () = calculationParameters |> Seq.map (fun conf -> (conf.Key , conf.Value)) |> Map.ofSeq
     
     (* add some dummy data rows *)
     do
+
         data.Add(ConfigurationViewModel { Key = "FX::USDPLN"; Value = "3.76" })
         data.Add(ConfigurationViewModel { Key = "FX::USDEUR"; Value = "0.87" })
         data.Add(ConfigurationViewModel { Key = "FX::EURGBP"; Value = "0.90" })
@@ -55,6 +57,19 @@ type MainViewModel() =
 
     let removeTrade = SimpleCommand(fun trade -> trades.Remove (trade :?> PaymentViewModel) |> ignore)
     let clearTrades = SimpleCommand(fun _ -> trades.Clear () )
+    let clearOptions = SimpleCommand(fun _ -> options.Clear () )
+
+    (* option commands *)
+
+    let calculateOptionsFun _ = do
+            options |> Seq.iter(fun option -> option.CalculateOption())
+
+    let calculateOption = SimpleCommand calculateOptionsFun
+
+    let addOption = SimpleCommand(fun _ -> 
+            OptionRecord.DefaultValues() |> OptionViewModel |> options.Add
+            )
+    let removeOption = SimpleCommand(fun option -> options.Remove (option :?> OptionViewModel) |> ignore)
 
     (* charting *)
     
@@ -100,16 +115,22 @@ type MainViewModel() =
     member this.ClearTrades = clearTrades
     member this.Calculate = calculate
 
+    member this.AddOption = addOption 
+    member this.RemoveOption = removeOption
+    member this.ClearOption = clearOptions
+    member this.CalculateOption = calculateOption
+
     member this.AddMarketData = addMarketDataRecord
     member this.RemoveMarketData = removeMarketDataRecord
     member this.ClearMarketData = clearMarketDataRecord
-    
+
     member this.AddCalcParameter = addCalcParameterRecord 
     member this.RemoveCalcParameter = removeCalcParameterRecord 
     member this.ClearCalcParameter = clearCalcParameterRecord 
 
 
     (* data fields *)
+    member this.Options = options
     member this.Trades = trades
     member this.Data = data
     member this.CalculationParameters = calculationParameters
